@@ -1,0 +1,88 @@
+import { Component, OnInit,  } from '@angular/core';
+//camera
+let front = false;
+const myVideo2 = <HTMLVideoElement>document.querySelector('#videoelementId');
+
+function printToConsole(s: string) {
+  return console.log(s);
+}
+
+
+
+
+
+
+const supports = navigator.mediaDevices.getSupportedConstraints();
+if (!supports['facingMode']) {
+  alert('Browser Not supported!');
+  }
+
+@Component({
+  selector: 'app-camera',
+  templateUrl: './camera.component.html',
+  styleUrls: ['./camera.component.css']
+})
+export class CameraComponent {
+  
+  
+
+  ngOnInit() {
+    const myVideo2  = <HTMLVideoElement>document.querySelector('#videoelementId');
+    console.log(myVideo2)
+    this.openCamera()
+  }
+
+  
+
+
+
+
+   public openCamera(){
+    navigator.mediaDevices.getUserMedia(this.media_option())
+    .then(function(mediaStream)  {
+      const myVideo = <HTMLVideoElement>document.querySelector('#videoelementId');
+
+      myVideo.srcObject = mediaStream;
+      myVideo.onloadedmetadata = function(mediaStream) {
+      myVideo.play();
+      };
+      
+    })
+    .catch((error) => {
+      console.error(`${error.name}: ${error.message}`);
+    });
+    }
+
+    public onClick(event:any){
+      front = !front;
+
+      const btn = document.querySelector('#btn') as HTMLButtonElement;
+      this.openCamera();
+      console.log("clicked")
+    }
+
+    public media_option(){
+      const constraints = {
+        audio: false,
+        video: {
+          facingMode: front ? "user" : "environment",
+          frameRate: { max: 60 },
+          width: { max: 240 },
+          height: { max: 300 },
+        }
+      }
+      return constraints
+    }
+
+
+    public takescreen(event?: any){
+      
+  }
+
+  
+     
+      
+      
+}
+    
+

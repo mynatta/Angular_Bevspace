@@ -1,0 +1,27 @@
+.removeunderline {
+    text-decoration:none;
+ }
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+  p {
+   text-align: center;
+}
+.buttonoption{
+  padding: 16px 32px;
+  border-radius: 5px;
+}
+.buttoncamara {
+  line-height: 25px;
+  
+}
+
+.buttoncamera::before {
+  font-family: "Font Awesome 5 Free"; font-weight: 10; font-size: 20px; content: "\f0a4";
+}
+
+ 
+ 

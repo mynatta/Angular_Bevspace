@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+<br>
+  <div class="container">
+    <video class="center" id="videoelementId">
+    </video>
+  </div>
+ <div class="center container">
+    <button class="center" mat-icon-button (click)="onClick($event)">
+      <mat-icon>party_mode</mat-icon>
+    </button>
+    <br>
+  <button class="button-2" role="button"  id="btn" (click)="takescreen()">
+    Capture Image
+  </button>   
+  <br>
+  <button class="button-2" role="button" id="btnre" (click)="clearphoto()">
+    Clear Image
+  </button> 
+  <br>
+</div>  
+  <!-- <div class="divdisplay" id="screenshots"></div> -->
+  <canvas id="canvas" width="640" height="480" style="border:1px solid #000000;">
+    Your browser does not support the HTML canvas tag.
+    </canvas>
+

@@ -1,0 +1,166 @@
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { GoogleMap } from '@angular/google-maps';
+
+let position, lat, long;
+let latshow, txt, longshow, txt2 ;
+let ggmap: google.maps.Map;
+
+
+async function getLatlong() {
+  latshow = document.getElementById("latshow") as HTMLElement;
+  longshow = document.getElementById("longshow") as HTMLElement;
+  
+  
+  try {
+    position = await navigator.geolocation.getCurrentPosition(function(position) {
+      lat = position.coords.latitude;
+      long = position.coords.longitude;
+      txt = document.createTextNode(lat);
+      txt2 = document.createTextNode(long);
+      console.log(txt)
+      latshow.appendChild(txt);
+      longshow.appendChild(txt2);
+      console.log(latshow);
+      
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      console.log(lat);
+
+    });
+    
+  } catch (error) {
+    
+  }
+
+  
+  
+  
+  
+}
+function initMap(): void {
+    ggmap = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+      center: { lat: -34.397, lng: 150.644 },
+      zoom: 8,
+
+    });
+  }
+
+@Component({
+  selector: 'app-maps',
+  templateUrl: './maps.component.html',
+  styleUrls: ['./maps.component.css']
+})
+export class MapsComponent implements OnInit{
+  
+  @ViewChild('search')
+  public searchElementRef!: ElementRef;
+  @ViewChild(GoogleMap)
+  public map!: GoogleMap;
+
+  center!: google.maps.LatLngLiteral;
+
+  latitude!: any;
+  longitude!: any;
+
+  
+
+  
+
+  
+
+  ngOnInit(): void {
+    
+    getLatlong();
+    initMap();
+    console.log(initMap())
+  }
+
+  public test(){
+    console.log("clicked")
+  }
+
+  click() {
+    console.log(event);
+  }
+
+  
+
+
+  
+
+  options: google.maps.MapOptions = {
+    //13.806988672784861, 100.55927991132293
+    
+    center: {lat: 13.806988672784861, lng: 100.55927991132293},
+    zoom: 18,
+    disableDefaultUI: true,
+    disableDoubleClickZoom: true,
+    fullscreenControl: true,
+    
+    
+  };
+
+  marker = {
+   position: { lat: 13.806988672784861, lng: 100.55927991132293 },
+   
+}
+
+
+
+  
+  apiLoaded: Observable<boolean>;
+
+//api AIzaSyCUbjXyCJwm0oPPwJNxHCI0-_rHtvcIHiE
+  constructor(httpClient: HttpClient, private ngZone: NgZone) {
+    console.log("map");
+    console.log(this.options);
+    window.addEventListener('touchstart', function(event) {
+      // some logic
+      event.preventDefault(); // <-- that should not be used in passive
+      // some other magic
+  });
+    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyBg7qd4aSOs4pJS28MZLnfUmh8kcf39pw4', 'callback')
+        .pipe(
+          map(() => true),
+          catchError(() => of(false)),
+        );
+
+        
+  }
+
+  ngAfterViewInit(): void {
+    // Binding autocomplete to search input control
+    let autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement
+    );
+    // Align search box to center
+    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+      this.searchElementRef.nativeElement
+    );
+    autocomplete.addListener('place_changed', () => {
+      this.ngZone.run(() => {
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+        console.log({ place }, place.geometry.location?.lat());
+
+        //set latitude, longitude and zoom
+        this.latitude = place.geometry.location?.lat();
+        this.longitude = place.geometry.location?.lng();
+        this.center = {
+          lat: this.latitude,
+          lng: this.longitude,
+        };
+      });
+    });
+  }
+  
+}

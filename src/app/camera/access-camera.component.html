@@ -1,0 +1,51 @@
+<!-- <body onload="myFunction()">
+  <script>
+    function myFunction() {
+      alert("Page is loaded     ");
+    }
+    </script>         
+<p>access-camera works!</p>
+
+
+ <div class="container mt-5 ">
+    <h2 class="textcenter">Angular Webcam Capture Image from Camera</h2>
+    <div class="col-md-12" >
+      
+      <webcam
+        [trigger]="invokeObservable"
+        (imageCapture)="captureImg($event)"
+      ></webcam>
+    </div>
+    <div class="col-md-12">
+      <button class="btn btn-danger" (click)="getSnapshot()">
+        Capture Image
+      </button>
+    </div>
+ </div>
+</body>
+
+ 
+
+
+  -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<br>
+<div class="container mt-5 center">
+  <p class="textcenter">
+    camera works!
+  </p>
+  <div class="container">
+      <h2 class="textcenter">
+        Press the button to use camera
+      </h2>
+    <div>
+    <button class="center2 buttoncamera" routerLink="/camera" >
+      Click Me
+    </button>
+    
+    </div>
+  </div>
+</div>
