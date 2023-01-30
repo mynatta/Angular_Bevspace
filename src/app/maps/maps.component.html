@@ -1,35 +1,46 @@
-<p>maps works!</p>
+<!-- <p>maps works!</p> -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg7qd4aSOs4pJS28MZLnfUmh8kcf39pw4&libraries=places,geometry&callback=initMap" async defer></script>
 
-<div>
-  <input
-  type="text"
-  class="my-search-box"
-  (keydown.enter)="$event.preventDefault()"
-  placeholder="Search Location"
-  type="text"
-  #search
-/></div>
-<br>
-  <div *ngIf="apiLoaded | async">
 
-      <google-map
+  <div *ngIf="apiLoaded | async" id="map">
+    <google-map
       #myGoogleMap
-  height="500px"
-  width="100%"
-  [zoom]="zoom"
-  [center]="center"
-  [options]="options"
-  >
-  <map-marker
-  [position]="center"
-
-
-  >
-  </map-marker>
+      height="700px"
+      width="100%"
+      [zoom]="zoom"
+      [center]="center"
+      [options]="options"
+      (mapClick)="addMarker($event)"
+    >
+    <map-traffic-layer [autoRefresh]="true"></map-traffic-layer>
+    <map-transit-layer></map-transit-layer>
+    <map-bicycling-layer></map-bicycling-layer>
+      <map-marker
+        #marker="mapMarker"
+        [position]="center"
+        (mapClick)="openInfoWindow(marker, $event)"
+        >
+      </map-marker>
+      <map-info-window>
+        {{ infoContent }}
+      </map-info-window>
     </google-map>
   </div>
-
-  <div id="map"></div>
+  <div class="customdiv">
+    <input
+      type="text"
+      class="my-search-box"
+      (keydown.enter)="$event.preventDefault()"
+      placeholder="Search here"
+      type="text"
+      
+      #search
+    />
+    <button
+      id="btn"
+      #btn
+    >setCenter
+    </button>
+  </div>
